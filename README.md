@@ -2,7 +2,8 @@
 
 Data is sourced from ergast.com/mrd  
 
-![AzureF1Architecture drawio-2](https://github.com/LouisYC123/azure-databricks-f1/assets/97873724/d1e65858-6cb2-4e9a-89df-aa8afe0a25b0)
+![AzureF1Architecture drawio-2](https://github.com/LouisYC123/azure-databricks-f1/assets/97873724/9b19abb7-a712-47d2-a846-84f3a01bb17e)
+
 
 
 ## Project Specification
