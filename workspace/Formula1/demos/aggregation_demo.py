@@ -8,7 +8,9 @@
 
 # COMMAND ----------
 
-data = spark.read.parquet(f"{presentation_folder_path}/race_results").filter("race_year = 2020")
+data = spark.read.parquet(f"{presentation_folder_path}/race_results").filter(
+    "race_year = 2020"
+)
 
 display(data)
 
@@ -28,10 +30,11 @@ data.select(sum("points")).show()
 
 # COMMAND ----------
 
-data.filter("driver_name = 'Lewis Hamilton'").select(sum("points"), countDistinct("race_name")) \
-.withColumnRenamed("sum(points)", "total_points") \
-.withColumnRenamed("count(DISTINCT race_name)", "number_of_races") \
-.show() 
+data.filter("driver_name = 'Lewis Hamilton'").select(
+    sum("points"), countDistinct("race_name")
+).withColumnRenamed("sum(points)", "total_points").withColumnRenamed(
+    "count(DISTINCT race_name)", "number_of_races"
+).show()
 
 # COMMAND ----------
 
@@ -40,13 +43,14 @@ data.filter("driver_name = 'Lewis Hamilton'").select(sum("points"), countDistinc
 
 # COMMAND ----------
 
-data.groupBy("driver_name").sum('points').show()
+data.groupBy("driver_name").sum("points").show()
 
 # COMMAND ----------
 
-data.groupBy("driver_name") \
-.agg(sum("points").alias("total_points"), countDistinct("race_name").alias("number_of_races")) \
-.show()
+data.groupBy("driver_name").agg(
+    sum("points").alias("total_points"),
+    countDistinct("race_name").alias("number_of_races"),
+).show()
 
 # COMMAND ----------
 
@@ -67,19 +71,12 @@ demo_df = df.filter("race_year in (2019, 2020)")
 
 # COMMAND ----------
 
-demo_grouped_df = demo_df \
-.groupBy("race_year", "driver_name") \
-.agg(sum("points").alias("total_points"), countDistinct("race_name").alias("number_of_races"))
+demo_grouped_df = demo_df.groupBy("race_year", "driver_name").agg(
+    sum("points").alias("total_points"),
+    countDistinct("race_name").alias("number_of_races"),
+)
 
 # COMMAND ----------
 
 driverRankSpec = Window.partitionBy("race_year").orderBy(desc("total_points"))
 demo_grouped_df = demo_grouped_df.withColumn("rank", rank().over(driverRankSpec))
-
-# COMMAND ----------
-
-display(demo_grouped_df)
-
-# COMMAND ----------
-
-
